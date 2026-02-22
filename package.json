@@ -1,7 +1,7 @@
 {
-  "name": "teleprompter",
+  "name": "ghostcue",
   "version": "1.0.0",
-  "description": "Transparent desktop teleprompter with rich text editing",
+  "description": "GhostCue — Transparent desktop teleprompter with rich text editing",
   "main": "main.js",
   "scripts": {
     "start": "ELECTRON_RUN_AS_NODE= electron .",
@@ -11,8 +11,8 @@
     "build:linux": "electron-builder --linux"
   },
   "build": {
-    "appId": "com.teleprompter.app",
-    "productName": "Teleprompter",
+    "appId": "com.ghostcue.app",
+    "productName": "GhostCue",
     "icon": "assets/icon.png",
     "mac": {
       "category": "public.app-category.productivity",
