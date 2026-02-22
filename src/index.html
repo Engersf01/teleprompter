@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teleprompter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Transparent background overlay (controlled by opacity slider) -->
+  <div id="bg-overlay"></div>
+
+  <!-- Title bar (draggable) -->
+  <div id="titlebar">
+    <div id="titlebar-drag">
+      <span id="titlebar-label">Teleprompter</span>
+    </div>
+    <div id="titlebar-buttons">
+      <button id="btn-toggle-toolbar" class="titlebar-btn" title="Toggle Toolbar (Ctrl+Shift+H)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+          <rect x="1" y="2" width="12" height="2" rx="0.5"/>
+          <rect x="1" y="6" width="12" height="2" rx="0.5"/>
+          <rect x="1" y="10" width="12" height="2" rx="0.5"/>
+        </svg>
+      </button>
+      <button id="btn-lock" class="titlebar-btn" title="Lock/Click-through (Ctrl+Shift+L)">
+        <svg id="icon-unlocked" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+          <path d="M4 6V4a3 3 0 0 1 6 0v1h1V4a4 4 0 0 0-8 0v2H2v7h10V6H4zm-1 1h8v5H3V7z"/>
+        </svg>
+        <svg id="icon-locked" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" style="display:none">
+          <path d="M4 6V4a3 3 0 0 1 6 0v2h1v7H3V6h1zm1 0h4V4a2 2 0 0 0-4 0v2zm-1 1v5h6V7H4z"/>
+        </svg>
+      </button>
+      <button id="btn-pin" class="titlebar-btn active" title="Always on Top (Ctrl+Shift+T)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+          <path d="M7 1l1.5 3.5L12 5l-2.5 2.5L10 11 7 9l-3 2 .5-3.5L2 5l3.5-.5z"/>
+        </svg>
+      </button>
+      <button id="btn-minimize" class="titlebar-btn" title="Minimize">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+          <rect x="2" y="6.5" width="10" height="1.5" rx="0.5"/>
+        </svg>
+      </button>
+      <button id="btn-close" class="titlebar-btn btn-close" title="Close">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+          <path d="M3.5 2.5l8 8m0-8l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toolbar (collapsible) -->
+  <div id="toolbar">
+    <!-- Formatting row -->
+    <div class="toolbar-row">
+      <div class="toolbar-group">
+        <button class="tool-btn" data-cmd="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+        <button class="tool-btn" data-cmd="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+        <button class="tool-btn" data-cmd="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+        <button class="tool-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+        <button class="tool-btn" data-cmd="hiliteColor" title="Highlight Text">
+          <span style="background:#ffff00;color:#000;padding:0 3px;border-radius:2px;font-weight:bold">H</span>
+        </button>
+      </div>
+
+      <div class="toolbar-sep"></div>
+
+      <div class="toolbar-group">
+        <button class="tool-btn" data-cmd="justifyLeft" title="Align Left">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="2" width="12" height="1.5"/><rect x="1" y="5.5" width="8" height="1.5"/><rect x="1" y="9" width="10" height="1.5"/></svg>
+        </button>
+        <button class="tool-btn" data-cmd="justifyCenter" title="Align Center">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="2" width="12" height="1.5"/><rect x="3" y="5.5" width="8" height="1.5"/><rect x="2" y="9" width="10" height="1.5"/></svg>
+        </button>
+        <button class="tool-btn" data-cmd="justifyRight" title="Align Right">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="2" width="12" height="1.5"/><rect x="5" y="5.5" width="8" height="1.5"/><rect x="3" y="9" width="10" height="1.5"/></svg>
+        </button>
+      </div>
+
+      <div class="toolbar-sep"></div>
+
+      <div class="toolbar-group">
+        <button class="tool-btn" data-cmd="insertUnorderedList" title="Bullet List">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><circle cx="3" cy="3.5" r="1.2"/><rect x="5.5" y="2.8" width="7" height="1.5"/><circle cx="3" cy="7" r="1.2"/><rect x="5.5" y="6.3" width="7" height="1.5"/><circle cx="3" cy="10.5" r="1.2"/><rect x="5.5" y="9.8" width="7" height="1.5"/></svg>
+        </button>
+        <button class="tool-btn" data-cmd="insertOrderedList" title="Numbered List">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><text x="1.5" y="4.5" font-size="5" font-weight="bold">1</text><rect x="5.5" y="2.8" width="7" height="1.5"/><text x="1.5" y="8" font-size="5" font-weight="bold">2</text><rect x="5.5" y="6.3" width="7" height="1.5"/><text x="1.5" y="11.5" font-size="5" font-weight="bold">3</text><rect x="5.5" y="9.8" width="7" height="1.5"/></svg>
+        </button>
+      </div>
+
+      <div class="toolbar-sep"></div>
+
+      <!-- Font size -->
+      <div class="toolbar-group">
+        <label class="tool-label" for="font-size">Size</label>
+        <input type="range" id="font-size" min="16" max="72" value="28" class="tool-slider" title="Font Size">
+        <span id="font-size-val" class="tool-value">28px</span>
+      </div>
+
+      <div class="toolbar-sep"></div>
+
+      <!-- Text color -->
+      <div class="toolbar-group">
+        <label class="tool-label">Color</label>
+        <input type="color" id="text-color" value="#ffffff" class="tool-color" title="Text Color">
+      </div>
+    </div>
+
+    <!-- Controls row -->
+    <div class="toolbar-row">
+      <!-- Background color presets -->
+      <div class="toolbar-group">
+        <label class="tool-label">Sheet</label>
+        <button class="color-preset active" data-color="#000000" title="Black" style="background:#000000"></button>
+        <button class="color-preset" data-color="#ffffff" title="White" style="background:#ffffff"></button>
+        <button class="color-preset" data-color="#0a1628" title="Dark Navy" style="background:#0a1628"></button>
+        <button class="color-preset" data-color="#2d2d2d" title="Dark Gray" style="background:#2d2d2d"></button>
+        <button class="color-preset green-screen" data-color="#00ff00" title="Green Screen" style="background:#00ff00"></button>
+        <input type="color" id="custom-bg-color" value="#000000" class="tool-color" title="Custom Color">
+      </div>
+
+      <div class="toolbar-sep"></div>
+
+      <!-- Opacity -->
+      <div class="toolbar-group">
+        <label class="tool-label" for="bg-opacity">Opacity</label>
+        <input type="range" id="bg-opacity" min="0" max="100" value="30" class="tool-slider" title="Background Opacity">
+        <span id="bg-opacity-val" class="tool-value">30%</span>
+      </div>
+
+      <div class="toolbar-sep"></div>
+
+      <!-- Auto-scroll -->
+      <div class="toolbar-group">
+        <button id="btn-scroll-toggle" class="tool-btn" title="Play/Pause Scroll (Space/F5)">
+          <svg id="icon-play" width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><polygon points="3,1 12,7 3,13"/></svg>
+          <svg id="icon-pause" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" style="display:none"><rect x="2.5" y="1.5" width="3" height="11"/><rect x="8.5" y="1.5" width="3" height="11"/></svg>
+        </button>
+        <label class="tool-label" for="scroll-speed">Speed</label>
+        <input type="range" id="scroll-speed" min="1" max="10" value="3" class="tool-slider tool-slider-sm" title="Scroll Speed">
+        <span id="scroll-speed-val" class="tool-value">3</span>
+        <button id="btn-scroll-reset" class="tool-btn" title="Reset to Top">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M7 1L3 5h3v5h2V5h3L7 1z"/><rect x="3" y="11" width="8" height="1.5"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toolbar hover zone (when toolbar is hidden) -->
+  <div id="toolbar-hover-zone"></div>
+
+  <!-- Editor area -->
+  <div id="editor-container">
+    <div id="editor" contenteditable="true" spellcheck="false">
+      <p>Welcome to Teleprompter!</p>
+      <p><br></p>
+      <p>Start typing or paste your script here. Use the toolbar above to format your text.</p>
+      <p><br></p>
+      <p>Tips:</p>
+      <ul>
+        <li>Press <b>Space</b> or <b>F5</b> to start/stop auto-scroll</li>
+        <li>Use <b>Ctrl+Shift+H</b> to hide the toolbar</li>
+        <li>Use <b>Ctrl+Shift+L</b> to lock the window (click-through mode)</li>
+        <li>Use <b>Ctrl+Shift+T</b> to toggle always-on-top</li>
+        <li>Adjust opacity and background color in the toolbar</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="controls.js"></script>
+  <script src="editor.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

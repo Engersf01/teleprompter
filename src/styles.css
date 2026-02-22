@@ -1,0 +1,428 @@
+/* ============================================
+   TELEPROMPTER - Transparent Desktop App
+   All backgrounds use rgba/transparent values
+   so Electron's transparent:true works properly
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* CRITICAL: fully transparent background for Electron transparency */
+  background: transparent !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #ffffff;
+  user-select: none;
+}
+
+/* Background overlay - controlled by opacity slider */
+#bg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Default: semi-transparent black at 30% */
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  z-index: 0;
+  /* Rounded corners for the window appearance */
+  border-radius: 8px;
+}
+
+/* ============================================
+   TITLE BAR
+   ============================================ */
+
+#titlebar {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 4px 0 12px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px 8px 0 0;
+  flex-shrink: 0;
+}
+
+#titlebar-drag {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+#titlebar-label {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+#titlebar-buttons {
+  display: flex;
+  gap: 2px;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.titlebar-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.titlebar-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.titlebar-btn.active {
+  color: #4fc3f7;
+}
+
+.titlebar-btn.btn-close:hover {
+  background: rgba(255, 60, 60, 0.8);
+  color: #ffffff;
+}
+
+.titlebar-btn.locked {
+  color: #ff9800;
+}
+
+/* ============================================
+   TOOLBAR
+   ============================================ */
+
+#toolbar {
+  position: relative;
+  z-index: 90;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 8px;
+  flex-shrink: 0;
+  transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+#toolbar.hidden {
+  max-height: 0;
+  opacity: 0;
+  padding: 0 8px;
+  border-bottom: none;
+  pointer-events: none;
+}
+
+/* Hover zone to reveal toolbar when hidden */
+#toolbar-hover-zone {
+  position: fixed;
+  top: 32px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  z-index: 95;
+  display: none;
+}
+
+#toolbar-hover-zone.active {
+  display: block;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+  flex-wrap: wrap;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.toolbar-sep {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 2px;
+}
+
+/* Tool buttons */
+.tool-btn {
+  min-width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 0 5px;
+  transition: background 0.15s;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.tool-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.tool-btn.active {
+  background: rgba(79, 195, 247, 0.3);
+  border-color: rgba(79, 195, 247, 0.5);
+  color: #4fc3f7;
+}
+
+/* Labels */
+.tool-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 2px;
+  white-space: nowrap;
+}
+
+.tool-value {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  min-width: 28px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sliders */
+.tool-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.tool-slider-sm {
+  width: 60px;
+}
+
+.tool-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #4fc3f7;
+  cursor: pointer;
+  border: none;
+}
+
+.tool-slider::-webkit-slider-thumb:hover {
+  background: #81d4fa;
+  transform: scale(1.2);
+}
+
+/* Color inputs */
+.tool-color {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.tool-color::-webkit-color-swatch-wrapper {
+  padding: 1px;
+}
+
+.tool-color::-webkit-color-swatch {
+  border: none;
+  border-radius: 3px;
+}
+
+/* Color presets */
+.color-preset {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.color-preset:hover {
+  transform: scale(1.15);
+}
+
+.color-preset.active {
+  border-color: #4fc3f7;
+  box-shadow: 0 0 0 1px rgba(79, 195, 247, 0.5);
+}
+
+.color-preset.green-screen {
+  position: relative;
+}
+
+/* ============================================
+   EDITOR
+   ============================================ */
+
+#editor-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 10;
+  /* Smooth scrolling for auto-scroll */
+  scroll-behavior: auto;
+}
+
+#editor {
+  min-height: 100%;
+  padding: 20px 24px 120px 24px;
+  font-size: 28px;
+  line-height: 1.5;
+  color: #ffffff;
+  outline: none;
+  cursor: text;
+  user-select: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#editor p {
+  margin-bottom: 0.3em;
+}
+
+#editor ul, #editor ol {
+  margin-left: 1.5em;
+  margin-bottom: 0.3em;
+}
+
+#editor li {
+  margin-bottom: 0.15em;
+}
+
+/* Placeholder */
+#editor:empty::before {
+  content: 'Start typing your script...';
+  color: rgba(255, 255, 255, 0.3);
+  font-style: italic;
+  pointer-events: none;
+}
+
+/* Selection color */
+#editor ::selection {
+  background: rgba(79, 195, 247, 0.4);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
+#editor-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+#editor-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#editor-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+#editor-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  border-radius: 8px;
+}
+
+/* ============================================
+   LOCK MODE INDICATOR
+   ============================================ */
+
+#lock-indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 152, 0, 0.9);
+  color: #000;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#lock-indicator.show {
+  opacity: 1;
+}
+
+/* ============================================
+   AUTO-SCROLL INDICATOR
+   ============================================ */
+
+#scroll-indicator {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(79, 195, 247, 0.85);
+  color: #000;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#scroll-indicator.show {
+  opacity: 1;
+}

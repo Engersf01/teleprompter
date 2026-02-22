@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.blockmap
+assets/icon_*x*.png
+assets/icon.iconset/
+assets/generate-icons.py

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f3460"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4fc3f7"/>
+      <stop offset="100%" style="stop-color:#29b6f6"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4fc3f7;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#4fc3f7;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect x="32" y="32" width="960" height="960" rx="200" ry="200" fill="url(#bg)"/>
+
+  <!-- Subtle border -->
+  <rect x="32" y="32" width="960" height="960" rx="200" ry="200" fill="none" stroke="#4fc3f7" stroke-width="4" opacity="0.3"/>
+
+  <!-- Teleprompter screen shape -->
+  <rect x="172" y="192" width="680" height="520" rx="24" ry="24" fill="url(#screen)" stroke="#4fc3f7" stroke-width="3" opacity="0.9"/>
+
+  <!-- Screen glow -->
+  <rect x="172" y="192" width="680" height="520" rx="24" ry="24" fill="url(#glow)"/>
+
+  <!-- Text lines on screen representing script -->
+  <rect x="232" y="272" width="400" height="14" rx="7" fill="#ffffff" opacity="0.9"/>
+  <rect x="232" y="312" width="520" height="14" rx="7" fill="#ffffff" opacity="0.7"/>
+  <rect x="232" y="352" width="460" height="14" rx="7" fill="#ffffff" opacity="0.5"/>
+  <rect x="232" y="392" width="500" height="14" rx="7" fill="#ffffff" opacity="0.35"/>
+  <rect x="232" y="432" width="380" height="14" rx="7" fill="#ffffff" opacity="0.2"/>
+  <rect x="232" y="472" width="440" height="14" rx="7" fill="#ffffff" opacity="0.12"/>
+  <rect x="232" y="512" width="350" height="14" rx="7" fill="#ffffff" opacity="0.06"/>
+
+  <!-- Reading position indicator (highlighted line) -->
+  <rect x="216" y="264" width="560" height="32" rx="6" fill="#4fc3f7" opacity="0.15"/>
+  <rect x="212" y="264" width="4" height="32" rx="2" fill="url(#accent)"/>
+
+  <!-- Scroll arrow at bottom -->
+  <polygon points="512,640 480,610 496,610 496,580 528,580 528,610 544,610" fill="#4fc3f7" opacity="0.5"/>
+
+  <!-- Stand / base -->
+  <rect x="432" y="728" width="160" height="16" rx="8" fill="#4fc3f7" opacity="0.6"/>
+  <rect x="496" y="712" width="32" height="24" rx="4" fill="#4fc3f7" opacity="0.4"/>
+  <rect x="392" y="756" width="240" height="12" rx="6" fill="#4fc3f7" opacity="0.3"/>
+
+  <!-- Play/scroll triangle indicator top-right -->
+  <circle cx="780" cy="260" r="36" fill="url(#accent)" opacity="0.9"/>
+  <polygon points="770,244 770,276 796,260" fill="#ffffff"/>
+</svg>
