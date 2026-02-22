@@ -97,7 +97,7 @@ html, body {
 }
 
 .titlebar-btn.active {
-  color: #4fc3f7;
+  color: #E8D44D;
 }
 
 .titlebar-btn.btn-close:hover {
@@ -193,9 +193,9 @@ html, body {
 }
 
 .tool-btn.active {
-  background: rgba(79, 195, 247, 0.3);
-  border-color: rgba(79, 195, 247, 0.5);
-  color: #4fc3f7;
+  background: rgba(232, 212, 77, 0.3);
+  border-color: rgba(232, 212, 77, 0.5);
+  color: #E8D44D;
 }
 
 /* Labels */
@@ -238,13 +238,13 @@ html, body {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #4fc3f7;
+  background: #E8D44D;
   cursor: pointer;
   border: none;
 }
 
 .tool-slider::-webkit-slider-thumb:hover {
-  background: #81d4fa;
+  background: #F0E668;
   transform: scale(1.2);
 }
 
@@ -285,8 +285,8 @@ html, body {
 }
 
 .color-preset.active {
-  border-color: #4fc3f7;
-  box-shadow: 0 0 0 1px rgba(79, 195, 247, 0.5);
+  border-color: #E8D44D;
+  box-shadow: 0 0 0 1px rgba(232, 212, 77, 0.5);
 }
 
 .color-preset.green-screen {
@@ -343,7 +343,7 @@ html, body {
 
 /* Selection color */
 #editor ::selection {
-  background: rgba(79, 195, 247, 0.4);
+  background: rgba(232, 212, 77, 0.4);
 }
 
 /* ============================================
@@ -411,7 +411,7 @@ body {
   position: fixed;
   bottom: 12px;
   right: 12px;
-  background: rgba(79, 195, 247, 0.85);
+  background: rgba(232, 212, 77, 0.85);
   color: #000;
   padding: 4px 10px;
   border-radius: 12px;
