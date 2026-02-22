@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GhostCue — Thank You!</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      text-align: center;
+      padding: 40px 24px;
+      max-width: 520px;
+    }
+
+    .container img {
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    h1 .ghost { color: #ffffff; }
+    h1 .cue { color: #E8D44D; }
+
+    .check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: rgba(232, 212, 77, 0.15);
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    .check svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .thank-you {
+      font-size: 22px;
+      font-weight: 600;
+      color: #E8D44D;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #888;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .download-btn {
+      display: inline-block;
+      padding: 14px 40px;
+      background: #E8D44D;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .download-btn:hover {
+      background: #F0E668;
+    }
+
+    .download-btn:active {
+      transform: scale(0.97);
+    }
+
+    .platform-name {
+      font-size: 13px;
+      color: #666;
+      margin-top: 12px;
+    }
+
+    .auto-msg {
+      font-size: 12px;
+      color: #555;
+      margin-top: 20px;
+    }
+
+    .note {
+      margin-top: 32px;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 24px;
+      color: #888;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #E8D44D;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="icon.png" alt="GhostCue">
+
+    <div class="check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#E8D44D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+
+    <div class="thank-you">Payment Successful!</div>
+    <p class="subtitle">Thank you for purchasing GhostCue. Your download is ready.</p>
+
+    <a id="download-link" class="download-btn" href="#">Download GhostCue</a>
+    <div id="platform-label" class="platform-name"></div>
+    <div id="auto-msg" class="auto-msg"></div>
+
+    <div class="note" id="install-note"></div>
+
+    <a class="back-link" href="/">&larr; Back to GhostCue</a>
+  </div>
+
+  <script>
+    var platforms = {
+      'mac-arm64': {
+        file: 'GhostCue-1.0.0-arm64.dmg',
+        label: 'macOS — Apple Silicon (M1/M2/M3/M4)',
+        note: '<strong>macOS:</strong> Right-click the app &rarr; Open &rarr; click "Open" to bypass the security warning on first launch.'
+      },
+      'mac-x64': {
+        file: 'GhostCue-1.0.0.dmg',
+        label: 'macOS — Intel (x64)',
+        note: '<strong>macOS:</strong> Right-click the app &rarr; Open &rarr; click "Open" to bypass the security warning on first launch.'
+      },
+      'windows': {
+        file: 'GhostCue%20Setup%201.0.0.exe',
+        label: 'Windows — 64-bit (x64 + ARM64)',
+        note: '<strong>Windows:</strong> If SmartScreen appears, click "More info" &rarr; "Run anyway".'
+      }
+    };
+
+    var params = new URLSearchParams(window.location.search);
+    var platform = params.get('platform');
+    var info = platforms[platform];
+
+    if (info) {
+      document.getElementById('download-link').href = info.file;
+      document.getElementById('download-link').setAttribute('download', '');
+      document.getElementById('platform-label').textContent = info.label;
+      document.getElementById('install-note').innerHTML = info.note;
+      document.getElementById('auto-msg').textContent = 'Your download will start automatically...';
+
+      // Auto-start download after 2 seconds
+      setTimeout(function() {
+        window.location.href = info.file;
+      }, 2000);
+    } else {
+      // No platform specified — show all options
+      document.getElementById('download-link').style.display = 'none';
+      document.getElementById('platform-label').innerHTML =
+        '<div style="margin-top:8px">' +
+        '<a href="GhostCue-1.0.0-arm64.dmg" download style="color:#E8D44D;display:block;margin:8px 0">macOS Apple Silicon (.dmg)</a>' +
+        '<a href="GhostCue-1.0.0.dmg" download style="color:#E8D44D;display:block;margin:8px 0">macOS Intel (.dmg)</a>' +
+        '<a href="GhostCue%20Setup%201.0.0.exe" download style="color:#E8D44D;display:block;margin:8px 0">Windows (.exe)</a>' +
+        '</div>';
+    }
+  </script>
+
+</body>
+</html>

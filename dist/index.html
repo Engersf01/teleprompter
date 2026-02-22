@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GhostCue — Transparent Desktop Teleprompter</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 24px 48px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .hero img {
+      width: 140px;
+      height: 140px;
+      border-radius: 28px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 .ghost { color: #ffffff; }
+    .hero h1 .cue { color: #E8D44D; }
+
+    .hero p {
+      font-size: 18px;
+      color: #999;
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .price-badge {
+      display: inline-block;
+      margin-top: 20px;
+      background: rgba(232, 212, 77, 0.1);
+      border: 1px solid rgba(232, 212, 77, 0.3);
+      color: #E8D44D;
+      font-size: 22px;
+      font-weight: 700;
+      padding: 8px 28px;
+      border-radius: 30px;
+    }
+
+    .downloads {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding: 40px 24px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 32px;
+      width: 260px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: #E8D44D;
+      transform: translateY(-4px);
+    }
+
+    .card .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      font-size: 20px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .card .arch {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .card .size {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 16px;
+    }
+
+    .buy-btn {
+      display: inline-block;
+      padding: 10px 28px;
+      background: #E8D44D;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .buy-btn:hover {
+      background: #F0E668;
+    }
+
+    .buy-btn:active {
+      transform: scale(0.97);
+    }
+
+    .buy-btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .features {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 32px;
+    }
+
+    .features ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .features li {
+      background: #161616;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: #bbb;
+      line-height: 1.5;
+    }
+
+    .features li strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note {
+      text-align: center;
+      padding: 24px;
+      color: #555;
+      font-size: 13px;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .secure {
+      text-align: center;
+      padding: 12px;
+      color: #555;
+      font-size: 12px;
+    }
+
+    .secure svg {
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 32px; }
+      .hero img { width: 100px; height: 100px; }
+      .downloads { flex-direction: column; align-items: center; }
+      .features ul { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <img src="icon.png" alt="GhostCue">
+    <h1><span class="ghost">Ghost</span><span class="cue">Cue</span></h1>
+    <p>A transparent, always-on-top desktop teleprompter. Read your script while recording — the window floats over everything with a see-through background.</p>
+    <div class="price-badge">$1.99</div>
+  </div>
+
+  <div class="downloads">
+    <div class="card">
+      <div class="icon">&#63743;</div>
+      <h3>macOS</h3>
+      <div class="arch">Apple Silicon (M1/M2/M3/M4)</div>
+      <div class="size">92 MB</div>
+      <button class="buy-btn" onclick="buyGhostCue('mac-arm64')">Buy &mdash; $1.99</button>
+    </div>
+
+    <div class="card">
+      <div class="icon">&#63743;</div>
+      <h3>macOS</h3>
+      <div class="arch">Intel (x64)</div>
+      <div class="size">100 MB</div>
+      <button class="buy-btn" onclick="buyGhostCue('mac-x64')">Buy &mdash; $1.99</button>
+    </div>
+
+    <div class="card">
+      <div class="icon">&#9114;</div>
+      <h3>Windows</h3>
+      <div class="arch">64-bit (x64 + ARM64)</div>
+      <div class="size">154 MB</div>
+      <button class="buy-btn" onclick="buyGhostCue('windows')">Buy &mdash; $1.99</button>
+    </div>
+  </div>
+
+  <div class="secure">
+    <svg width="12" height="14" viewBox="0 0 12 14" fill="#555"><path d="M10 5V4a4 4 0 0 0-8 0v1H1v8h10V5h-1zM4 4a2 2 0 0 1 4 0v1H4V4zm5 7H3V7h6v4z"/></svg>
+    Secure payment powered by Stripe
+  </div>
+
+  <div class="features">
+    <h2>Features</h2>
+    <ul>
+      <li><strong>True Transparency</strong>See your desktop, browser, or any app behind the floating text.</li>
+      <li><strong>Auto-Scroll</strong>Adjustable scroll speed with play/pause. Use Space or F5 to toggle.</li>
+      <li><strong>Rich Text Editing</strong>Bold, italic, underline, highlights, lists, alignment, font size 16–72px.</li>
+      <li><strong>Background Control</strong>Opacity slider from 0% (invisible) to 100%. Color presets including green screen.</li>
+      <li><strong>Click-Through Mode</strong>Lock the window so mouse clicks pass through — only text floats on screen.</li>
+      <li><strong>Always On Top</strong>Stays above all windows while you record, present, or video call.</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <p><strong>macOS users:</strong> On first launch, right-click the app &rarr; Open &rarr; click "Open" in the dialog.<br>The app is not notarized with Apple, so macOS will ask for confirmation once.</p>
+    <p style="margin-top:8px"><strong>Windows users:</strong> SmartScreen may show a warning. Click "More info" &rarr; "Run anyway".</p>
+  </div>
+
+  <script>
+    const stripe = Stripe('pk_live_51SS63hDIUF13KPW6lfhJYaPbvPml21QPRLOhDNGbJIbth5LAPGLXaeVMoh06nETqfSdvJXGJCJzbtiMWrrODRk0T00Lj7Oc2fe');
+
+    function buyGhostCue(platform) {
+      // Disable all buttons while redirecting
+      document.querySelectorAll('.buy-btn').forEach(function(btn) {
+        btn.disabled = true;
+        btn.textContent = 'Redirecting...';
+      });
+
+      stripe.redirectToCheckout({
+        lineItems: [{ price: 'price_1T3ST8DIUF13KPW6HsJC1lYJ', quantity: 1 }],
+        mode: 'payment',
+        successUrl: window.location.origin + '/success.html?platform=' + platform,
+        cancelUrl: window.location.origin + '/',
+      }).then(function(result) {
+        if (result.error) {
+          alert(result.error.message);
+          document.querySelectorAll('.buy-btn').forEach(function(btn) {
+            btn.disabled = false;
+            btn.textContent = 'Buy \u2014 $1.99';
+          });
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
